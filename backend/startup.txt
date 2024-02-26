@@ -1,1 +1,1 @@
-gunicorn --config gunicorn.py main:app
+python -m uvicorn application:app --host 0.0.0.0
