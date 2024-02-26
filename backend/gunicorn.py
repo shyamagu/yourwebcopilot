@@ -3,8 +3,8 @@ import os
 
 name = "Gunicorn config for FastAPI"
 
-accesslog = "/home/user/fastapi/gunicorn-access.log"
-errorlog = "/home/user/fastapi/gunicorn-error.log"
+#accesslog = "/home/user/fastapi/gunicorn-access.log"
+#errorlog = "/home/user/fastapi/gunicorn-error.log"
 
 bind = "0.0.0.0:8000"
 
