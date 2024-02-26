@@ -42,7 +42,15 @@ jobs:
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
         working-directory: ./backend
-        
+
+      - name: Display all files
+        run: ls -R
+        working-directory: .
+
+      - name: Display all files
+        run: ls -R
+        working-directory: ./backend
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
@@ -50,6 +58,7 @@ jobs:
           path: |
             release.zip
             !venv/
+        working-directory: ./backend
 
   deploy:
     runs-on: ubuntu-latest
