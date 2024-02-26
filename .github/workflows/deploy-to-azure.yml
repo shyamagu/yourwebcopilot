@@ -58,7 +58,6 @@ jobs:
           path: |
             release.zip
             !venv/
-        working-directory: ./backend
 
   deploy:
     runs-on: ubuntu-latest
