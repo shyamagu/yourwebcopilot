@@ -18,9 +18,12 @@ def calc_token(text):
 import requests
 import json
 
-from call_chatgpt import call_chatgpt, call_chatgpt_w_stream
-from call_bingapi import call_bingapi
-from analyze_html import analyze_html
+from common.call_chatgpt import call_chatgpt, call_chatgpt_w_stream
+
+from common.call_chatgpt import call_chatgpt, call_chatgpt_w_stream
+from common.call_bingapi import call_bingapi
+from common.analyze_html import analyze_html
+
 from fastapi.responses import StreamingResponse
 
 from logger import logger
@@ -166,6 +169,7 @@ def getadvice(request: AdviceRequest):
         token_num = calc_token(content_text)
 
     except Exception as e:
+        logger.error(e)
         advice = "ページ情報の解析に失敗しました"
         return StreamingResponse(
             chatgpt_streamer_dummy(advice), media_type="text/event-stream"
