@@ -43,14 +43,14 @@ uvicorn main:app --reload
 
 本番環境では、Azure App Serviceを使用します。以下の準備が必要です。
 
-- Azure App Serviceの事前準備
+- Azure App Serviceの作成(Linux, python 3.11 コードベースで作成)
 - 認証系（例：EasyAuth）の設定
 - スタートアップスクリプト（`startup.sh`）の登録
 - 環境変数`SCM_DO_BUILD_DURING_DEPLOYMENT`を`1`に設定
 - BingとAOAIの環境変数を設定
 - 発行プロファイルと名前を控える
 
-[参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff)を参照してください。
+詳細な手順については、[参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff)を参照してください。
 
 ## GitHub Actionsの設定
 
