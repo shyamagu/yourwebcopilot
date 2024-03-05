@@ -30,14 +30,27 @@ npm run dev -- --open
 
 これにより、ローカルサーバが起動し、ブラウザが自動的に開きます。
 
+もしビルドしたい場合は、以下のビルドコマンドを実行するとbackend側に成果物が配置されるため、backendのみの起動でも動作するようになります。
+```bash
+npm run build
+```
+
 ### backendフォルダ
 
 環境変数を.envとしてbackendフォルダに置きます。
 
 バックエンドの開発環境をセットアップするには、Pythonの仮想環境をアクティベートし、以下のコマンドを実行します。
+なお、仮想環境として.venvという名前を想定したスクリプトを用意してます。
 
+事前準備
 ```bash
+python -m venv .venv
 activate.bat # Windowsの場合
+pip install -r requirements.txt
+```
+
+開発サーバ起動
+```bash
 uvicorn main:app --reload
 ```
 
