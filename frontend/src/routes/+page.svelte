@@ -1,5 +1,5 @@
 <script>
-    import { fly } from 'svelte/transition';
+    import { fly,scale } from 'svelte/transition';
     import SearchResultStream from './SearchResultStream.svelte';
 
     let title = "Your Web Copilot"
@@ -134,7 +134,7 @@
     }}>+</button>
 
     {#each sitelist as site, index}
-      <div class="sitefield">
+      <div class="sitefield" transition:scale>
         {site}
         <button class="sitebutton" on:click={() => removeAsite(index)}>X</button>
       </div>
