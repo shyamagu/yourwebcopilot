@@ -27,6 +27,8 @@
 
       loading = true;
 
+      advice = "";
+
       const send_message = 
         {
             "content":message,
@@ -47,6 +49,7 @@
 
       advice = "";
       loading = false;
+      exceedToken = false;
 
       if(response.body){
 
