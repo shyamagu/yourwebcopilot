@@ -1,6 +1,8 @@
 # YourWebCopilot
 
-このプロジェクトは、Bing Web Search API v7とAzure OpenAI Serviceを活用したアプリケーションです。ユーザーが簡単に情報検索とAIによる高度な分析を行えるように設計されています。
+このプロジェクトは、Bing Web Search API v7とAzure OpenAI Serviceを活用したアプリケーションです。ユーザーが簡単に情報検索とAIによる高度な分析を行えるように設計されています。[こちら](https://qiita.com/shyamagu/items/98fe60f6f81b744b97b1)の記事で解説した”検索型"RAGのサンプル実装になります。
+
+
 **このサービスではスクレイピングを実行します。対象のWebページがスクレイピングを禁止していないかなどは確認して利用ください。**
 
 プロジェクト構成としては動作検証を目的とした環境を前提にしています。（下図）
@@ -24,7 +26,7 @@
 - `BING_API_KEY`: Bing Web Search APIのAPIキー
 - `AOAI_API_KEY`: Azure OpenAI ServiceのAPIキー
 - `AOAI_ENDPOINT`: Azure OpenAI Serviceのエンドポイント
-- `AOAI_MODEL`: 使用するモデル（`gpt-4-turbo`を推奨）
+- `AOAI_MODEL`: 使用するモデルのデプロイ名（モデルは`gpt-4-turbo`を推奨）
 
 ## 開発環境のセットアップ
 

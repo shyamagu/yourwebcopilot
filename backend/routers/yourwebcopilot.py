@@ -90,6 +90,7 @@ Output: ["GPT-4V","schematic diagram"]
 
     # ChatGPTを呼び出す
     answer_query = call_chatgpt([m.dict() for m in messages_for_query])
+    logger.debug(answer_query)
     
     try:
         bingsearchurl = "https://api.bing.microsoft.com/v7.0/search?q="
@@ -218,7 +219,7 @@ Content :
         Message(role="user", content=message)
     ]
 
-    if token_num <= 100:
+    if token_num <= 100 and not forceExecute:
         advice = "!ページ情報のトークン数が規定値(100)に満たないため、要約処理は行いません。\nページ情報が取得できていない可能性があります。リンク先を確認ください。"
         return StreamingResponse(
             chatgpt_streamer_dummy(advice), media_type="text/event-stream"
