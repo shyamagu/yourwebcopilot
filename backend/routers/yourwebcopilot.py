@@ -47,7 +47,7 @@ def mslcopilot_part1(message: ReceiveData):
     siteoption = "%20OR".join(["%20site:" + site for site in message.sitelist])
 
     if searchEnglish:
-        system_prompt ="""You are a top-tier information concierge. Based on user input, return the necessary Bing search queries in the following format.
+        system_prompt ="""You are a top-tier information concierge. Based on user input, return the necessary Bing search queries in the following format in English.
 If the user explicitly specifies search keywords, use those as the search query. 
 **No need for additional explanations or descriptions. Only answer with the array string format.**
 
