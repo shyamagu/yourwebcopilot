@@ -127,7 +127,7 @@
   <div class="horizontal-container">
 
 
-    <input class="siteoption" type="text" bind:value={newsite} />
+    <input class="siteoption" type="text" bind:value={newsite} placeholder="サイトを追加" />
     <button class="add-sitebutton" on:click={() => {
       sitelist = [...sitelist, newsite]
       newsite = ""

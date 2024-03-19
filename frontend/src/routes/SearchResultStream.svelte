@@ -24,6 +24,7 @@
     let displayedAdvice = "";
     let displayedIndex = 0;
     let isStreaming = false;
+    let isWriting = false;
 
     async function callChatGPT() {
         try {
@@ -95,10 +96,13 @@
 
     onMount(() => {
         const interval = setInterval(() => {
-        if (displayedIndex < advice.length) {
-            displayedAdvice += advice.charAt(displayedIndex);
-            displayedIndex++;
-        }
+            if (displayedIndex < advice.length) {
+                isWriting = true;
+                displayedAdvice += advice.charAt(displayedIndex);
+                displayedIndex++;
+            }else{
+                isWriting = false;
+            }
         }, 33);
 
         callChatGPT();
@@ -121,14 +125,19 @@
     {:else}
         <div class="chat_assistant" transition:fly={{ y: 50, duration: 500 }}>
             <pre class="chat_message">{displayedAdvice}</pre>
-            {#if isStreaming}
-            <span class="streaming"></span>
-            {/if}
             {#if exceedToken}
                 <button
                     class="button_class button_red"
                     on:click={executeGPTprocess}>それでも確認する</button
                 >
+            {:else}
+                {#if isStreaming && isWriting}
+                    <span class="streaming_fast"></span>
+                {:else if isStreaming && !isWriting}
+                    <span class="streaming"></span>
+                {:else if !isStreaming && isWriting}
+                    <span class="streaming_fast"></span>
+                {/if}
             {/if}
         </div>
     {/if}
@@ -213,6 +222,19 @@
         border-top: 2px solid #66f;
         border-radius: 50%;
         animation: spin 1s linear infinite;
+        margin:auto;
+    }
+
+    .streaming_fast {
+        display: inline-block;
+        vertical-align: middle; 
+        font-size: 1em; /* 1文字分の大きさ */
+        width: 1em;
+        height: 1em;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #66f;
+        border-radius: 50%;
+        animation: spin 0.2s linear infinite;
         margin:auto;
     }
 
