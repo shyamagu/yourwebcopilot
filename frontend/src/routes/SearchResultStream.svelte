@@ -99,7 +99,7 @@
     /**
      * @param {string} content 
      */
-     async function delayAndNewContent(content) {
+    async function delayAndNewContent(content) {
         for (const onechar of content) {
             await new Promise(resolve => setTimeout(() => {
                 displayedAdvice += onechar;
