@@ -3,7 +3,7 @@ name: Build and Deploy to Azure App Service
 on:
   push:
     branches:
-      - main
+      - release
 
 jobs:
   build:

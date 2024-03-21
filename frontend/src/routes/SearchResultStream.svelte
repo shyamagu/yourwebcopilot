@@ -99,13 +99,11 @@
     /**
      * @param {string} content 
      */
-     async function delayAndNewContent(content) {
-        for (const onechar of content) {
-            await new Promise(resolve => setTimeout(() => {
-                displayedAdvice += onechar;
-                resolve(null);
-            }, 33));
-        }
+    async function delayAndNewContent(content) {
+        await new Promise(resolve => setTimeout(() => {
+            displayedAdvice += content;
+            resolve(null);
+        }, 33));
     }
 
     onMount(() => {
