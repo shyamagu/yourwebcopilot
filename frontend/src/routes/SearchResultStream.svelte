@@ -22,7 +22,6 @@
     let advice = "";
 
     let displayedAdvice = "";
-    let displayedIndex = 0;
     let isStreaming = false;
     let isWriting = false;
 
@@ -35,7 +34,6 @@
 
             advice = "";
             displayedAdvice = "";
-            displayedIndex = 0;
 
             const send_message = {
                 content: message,
@@ -56,7 +54,6 @@
 
             advice = "";
             displayedAdvice = "";
-            displayedIndex = 0;
             loading = false;
             exceedToken = false;
             isStreaming = true;
@@ -72,6 +69,10 @@
                     }
                     const text = decoder.decode(value);
                     advice += text;
+
+                    isWriting = true;
+                    await delayAndNewContent(text)
+                    isWriting = false;
                 }
             }
 
@@ -86,6 +87,7 @@
         } finally {
             loading = false;
             isStreaming = false;
+            isWriting = false;
         }
     }
 
@@ -94,22 +96,20 @@
         callChatGPT();
     }
 
+    /**
+     * @param {string} content 
+     */
+     async function delayAndNewContent(content) {
+        for (const onechar of content) {
+            await new Promise(resolve => setTimeout(() => {
+                displayedAdvice += onechar;
+                resolve(null);
+            }, 33));
+        }
+    }
+
     onMount(() => {
-        const interval = setInterval(() => {
-            if (displayedIndex < advice.length) {
-                isWriting = true;
-                displayedAdvice += advice.charAt(displayedIndex);
-                displayedIndex++;
-            }else{
-                isWriting = false;
-            }
-        }, 33);
-
         callChatGPT();
-
-        return () => {
-        clearInterval(interval);
-        };
     });
 </script>
 
@@ -234,7 +234,7 @@
         border: 2px solid #f3f3f3;
         border-top: 2px solid #66f;
         border-radius: 50%;
-        animation: spin 0.2s linear infinite;
+        animation: spin 0.1s linear infinite;
         margin:auto;
     }
 
