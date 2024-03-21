@@ -100,12 +100,10 @@
      * @param {string} content 
      */
     async function delayAndNewContent(content) {
-        for (const onechar of content) {
-            await new Promise(resolve => setTimeout(() => {
-                displayedAdvice += onechar;
-                resolve(null);
-            }, 33));
-        }
+        await new Promise(resolve => setTimeout(() => {
+            displayedAdvice += content;
+            resolve(null);
+        }, 33));
     }
 
     onMount(() => {
