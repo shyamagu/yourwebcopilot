@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: yourwebcopilot-himiyaza
+metadata:
+  template: azd-init@1.7.0
+services:
+  backend:
+    project: ./app/backend
+    host: appservice
+    language: python
+    hooks:
+      prepackage:
+        windows:
+          shell: pwsh
+          run: cd ../frontend;npm install;npm run build
+          interactive: true
+          continueOnError: false
+        posix:
+          shell: bash
+          run: cd ../frontend;npm install;npm run build
+          interactive: true
+          continueOnError: false
