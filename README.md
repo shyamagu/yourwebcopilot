@@ -105,7 +105,7 @@ GitHub Actions を使用して自動デプロイを設定する場合、以下�
 - `AZURE_WEBAPP_NAME`: Azure Web App の名前
 - `AZURE_WEBAPP_PUBLISH_PROFILE`: Azure Web App の発行プロファイル
 
-これにより、コードの変更が main ブランチにマージされるたびに、自動的に本番環境にデプロイされます。
+これにより、コードの変更が release ブランチにマージされるたびに、自動的に本番環境にデプロイされます。
 
 ## 注意事項
 
