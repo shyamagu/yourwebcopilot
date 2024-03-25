@@ -18,11 +18,11 @@ jobs:
 
       - name: Install npm dependencies for frontend
         run: npm install
-        working-directory: ./frontend
+        working-directory: ./app/frontend
 
       - name: Build frontend
         run: npm run build
-        working-directory: ./frontend
+        working-directory: ./app/frontend
 
       - name: Set up Python version
         uses: actions/setup-python@v5
@@ -33,22 +33,22 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-        working-directory: ./backend
+        working-directory: ./app/backend
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        working-directory: ./backend
+        working-directory: ./app/backend
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r -x \*venv\*
-        working-directory: ./backend
+        working-directory: ./app/backend
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            ./backend/release.zip
+            ./app/backend/release.zip
             !venv/
 
   deploy:

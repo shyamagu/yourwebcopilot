@@ -1,95 +1,112 @@
 # YourWebCopilot
 
-このプロジェクトは、Bing Web Search API v7とAzure OpenAI Serviceを活用したアプリケーションです。ユーザーが簡単に情報検索とAIによる高度な分析を行えるように設計されています。[こちら](https://qiita.com/shyamagu/items/98fe60f6f81b744b97b1)の記事で解説した”検索型"RAGのサンプル実装になります。
+このプロジェクトは、Bing Web Search API v7 と Azure OpenAI Service を活用したアプリケーションです。ユーザーが簡単に情報検索と AI による高度な分析を行えるように設計されています。 [こちら](https://qiita.com/shyamagu/items/98fe60f6f81b744b97b1) の記事で解説した "検索型" RAG のサンプル実装になります。
 
-
-**このサービスではスクレイピングを実行します。対象のWebページがスクレイピングを禁止していないかなどは確認して利用ください。**
+**このサービスではスクレイピングを実行します。対象の Web ページがスクレイピングを禁止していないかなどは確認して利用ください。**
 
 このプロジェクト構成としては以下の動作検証を目的とした環境を前提にしています。
 
 ![環境イメージ](asis.png)
 
-もしより本番系を意識する場合は、本プロジェクトのフロントエンドとバックエンドを分けて以下のような構成が推奨です。
+もし、本番系をより意識する場合は、このプロジェクトのフロントエンドとバックエンドを分けて以下のような構成を推奨します。
 
 ![推奨環境イメージ](tobe.png)
 
+## Azure アカウント
 
-## 必要なサービス
+このアプリケーションをデプロイする場合に以下が必要です。
 
-- Bing Web Search API v7
+- 有効な Azure アカウント
+- 有効な Azure サブスクリプション（Azure OpenAI Service が利用できるもの）
+- Azure アカウントの権限
+  - `Microsoft.Resources/deployments/write` のサブスクリプションレベルの権限
+
+## Azure へのデプロイ
+
+デプロイする Azure リソースは以下です。
+
+- Azure App Service
+  - Azure Service Plan
 - Azure OpenAI Service
+- Bing Web Search API V7
+- (Option) Azure Application Insights
+- (Option) Azure Log Analytics Workspace
 
-## 必要な環境変数
+### プロジェクトのセットアップ
 
-このプロジェクトをローカルまたは本番環境で実行するには、以下の環境変数が必要です。
+#### ローカル環境
 
-- `BING_API_KEY`: Bing Web Search APIのAPIキー
-- `AOAI_API_KEY`: Azure OpenAI ServiceのAPIキー
-- `AOAI_ENDPOINT`: Azure OpenAI Serviceのエンドポイント
-- `AOAI_MODEL`: 使用するモデルのデプロイ名（モデルは`gpt-4-turbo`を推奨）
+はじめに必要なツールをインストールします。
 
-## 開発環境のセットアップ
+* [Azure Developer CLI](https://aka.ms/azure-dev/install)
+* [Python 3.11](https://www.python.org/downloads/)
+  * **注意**: セットアップ スクリプトを動作させるには、Python と pip パッケージ マネージャーに Windows のパスが通っている必要があります。
+  * **注意**: コンソールからコマンド `python --version` を実行できるか確認してください。Ubuntu の場合は `sudo apt install python-is-python3` を `python` と `python3` をリンクさせるために実行する必要があります。
+* [Node.js 14+](https://nodejs.org/en/download/)
+* [Git](https://git-scm.com/downloads)
+* [Powershell 7+ (pwsh)](https://github.com/powershell/powershell) - Windows ユーザーのみ。
+  * **注意**: PowerShell ターミナルからコマンド `pwsh.exe` が実行できることを確認してください。これが失敗した場合は、PowerShell をアップグレードする必要があります。
 
-### frontendフォルダ
+このリポジトリをクローンしたディレクトリに移動して、次のデプロイの手順を実行します。
 
-フロントエンドの開発環境をセットアップするには、以下のコマンドを実行します。
-```bash
-npm install
-```
+### デプロイ
 
-そのうえで、開発サーバを起動します。
-```bash
-npm run dev -- --open
-```
+次の手順に従って、Azure リソースをプロビジョニングし、アプリケーションコードをデプロイします。
 
-これにより、ローカルサーバが起動し、ブラウザが自動的に開きます。
+1. 環境変数を設定します。その他の項目は `infra/main.parameters.json` を確認してください。
+   - `CHATGPT_MODEL`: デプロイする OpenAI のモデルを指定します。デフォルトは `gpt-35-turbo` です。
+   - `CHATGPT_MODEL_VERSION`: デプロイする OpenAI のモデルバージョンを指定します。デフォルトは `0613` です。
+2. コマンド `azd auth login` を実行します。
+3. コマンド `azd up` を実行します。
 
-もしビルドしたい場合は、以下のビルドコマンドを実行するとbackend側に成果物が配置されるため、backendのみの起動でも動作するようになります。
-```bash
-npm run build
-```
+    `azd up` コマンドを実行すると対話型のデプロイフローが呼び出されます。環境の名前やデプロイする場所を設定してデプロイフローを完了させてください。
 
-### backendフォルダ
+    **注意** `azd up` コマンドによって作成された Azure リソースは利用することで費用が発生することに注意してください。リソースが不要になった場合は、コマンド `azd down` でリソースを削除することができます。
 
-環境変数を.envとしてbackendフォルダに置きます。
+4. アプリケーションが正常にデプロイされると、コンソールに URL が出力されます。その URL をクリックして、ブラウザーでアプリケーションを確認できます。
 
-バックエンドの開発環境をセットアップするには、Pythonの仮想環境をアクティベートし、以下のコマンドを実行します。
-なお、仮想環境として.venvという名前を想定したスクリプトを用意してます。
+    **注意** この時点では API key が設定されていないため、検索することはできません。
 
-事前準備
-```bash
-python -m venv .venv
-activate.bat # Windowsの場合
-pip install -r requirements.txt
-```
+5. Azure Portal を開き、Azure App Service の認証設定（EasyAuth など）を追加します。
+6. Azure Portal を開き、Azure OpenAI Service と Bing Web Search V7 の API key を控え、 Azure App Service の構成画面から以下の環境変数に設定します。
+   - `BING_API_KEY`: Bing Web Search APIのAPIキー
+   - `AOAI_API_KEY`: Azure OpenAI ServiceのAPIキー
 
-開発サーバ起動
-```bash
-uvicorn main:app --reload
-```
+## ローカル環境での実行
 
-## 本番環境の準備
+**注意** ローカル環境での実行は、上記の `azd up` が正常に完了した後に実行できます。
 
-本番環境では、Azure App Serviceを使用します。以下の準備が必要です。
+1. `app/backend` ディレクトリに移動します。
+2. `.env` ファイルを新規作成し、以下の環境変数を設定します。値は Azure App Service からコピーします。
+   - `BING_API_KEY`
+   - `AOAI_API_KEY`
+   - `AOAI_ENDPOINT`
+   - `AOAI_MODEL`
+3. 以下のコマンドを実行して、仮想環境を作成し、 Python パッケージをインストールします。
 
-- Azure App Serviceの作成(Linux, python 3.11 コードベースで作成)
-- 認証系（例：EasyAuth）の設定
-- スタートアップスクリプト（`startup.sh`）の登録
-- 環境変数`SCM_DO_BUILD_DURING_DEPLOYMENT`を`1`に設定
-- BingとAOAIの環境変数を設定
-- 発行プロファイルと名前を控える
+    ```shell
+    python -m venv .venv
+    activate.bat # Windowsの場合
+    pip install -r requirements.txt
+    ```
 
-詳細な手順については、[参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff)を参照してください。
+4. 以下のコマンドを実行して、ローカルでアプリケーションを起動します。
 
-## GitHub Actionsの設定
+    ```shell
+    uvicorn main:app --reload
+    ```
 
-GitHub Actionsを使用して自動デプロイを設定する場合、以下の2つの変数をGitHubのSecretsに登録してください。
+    起動コマンドや手順の詳細については、 [参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff) を参照してください。
 
-- `AZURE_WEBAPP_NAME`: Azure Web Appの名前
-- `AZURE_WEBAPP_PUBLISH_PROFILE`: Azure Web Appの発行プロファイル
+## GitHub Actions の設定
 
-これにより、コードの変更がmainブランチにマージされるたびに、自動的に本番環境にデプロイされます。
+GitHub Actions を使用して自動デプロイを設定する場合、以下の2つの変数を GitHub の Secrets に登録してください。
+
+- `AZURE_WEBAPP_NAME`: Azure Web App の名前
+- `AZURE_WEBAPP_PUBLISH_PROFILE`: Azure Web App の発行プロファイル
+
+これにより、コードの変更が release ブランチにマージされるたびに、自動的に本番環境にデプロイされます。
 
 ## 注意事項
 
-このプロジェクトのセットアップと実行には、`git fork`や`git clone`から始めることを前提としています。上記の手順に従って、必要なサービスと環境変数の設定を行ってください。
+このプロジェクトのセットアップと実行には、 `git fork` や `git clone` から始めることを前提としています。上記の手順に従って、必要なサービスと環境変数の設定を行ってください。
