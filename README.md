@@ -98,6 +98,26 @@
 
     起動コマンドや手順の詳細については、 [参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff) を参照してください。
 
+5. `app/frontend` ディレクトリに移動します。
+6. 以下のコマンドを実行して、必要なライブラリをインストールします。
+
+  ```shell
+  npm install
+  ```
+
+7. フロントサイドを起動します。
+  ```shell
+  npm run dev -- --open
+  ```
+
+もしFastAPIサーバ(backend)だけで起動したい場合は以下のコマンドでSvelte成果物をビルドします。
+  ```shell
+  npm run build
+  ```
+
+Svelte成果物はapp/backend/static に配置されます。この状態で 手順4.を実行するとFastAPIサーバだけでローカル実行可能です。
+
+
 ## GitHub Actions の設定
 
 GitHub Actions を使用して自動デプロイを設定する場合、以下の2つの変数を GitHub の Secrets に登録してください。
