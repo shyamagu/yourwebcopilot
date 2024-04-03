@@ -75,9 +75,10 @@
 ## ローカル環境での実行
 
 **注意** ローカル環境での実行は、上記の `azd up` が正常に完了した後に実行できます。
+**補足** もしくは2.のリソースをご自身で用意いただいても実行は可能です。
 
 1. `app/backend` ディレクトリに移動します。
-2. `.env` ファイルを新規作成し、以下の環境変数を設定します。値は Azure App Service からコピーします。
+2. `.env` ファイルを新規作成し、以下の環境変数を設定します。値は Azure App Service や各リソースから取得してください。
    - `BING_API_KEY`
    - `AOAI_API_KEY`
    - `AOAI_ENDPOINT`
@@ -97,6 +98,28 @@
     ```
 
     起動コマンドや手順の詳細については、 [参考サイト](https://qiita.com/shyamagu/items/4fca59e47ae74b1ebaff) を参照してください。
+
+**補足** 以下の処理はazd upで実行されているはずですが、azd無しの場合やデバック用途として残します。
+
+5. `app/frontend` ディレクトリに移動します。
+6. 以下のコマンドを実行して、必要なライブラリをインストールします。
+
+  ```shell
+  npm install
+  ```
+
+7. フロントサイドを起動します。
+  ```shell
+  npm run dev -- --open
+  ```
+
+もしFastAPIサーバ(backend)だけで起動したい場合は以下のコマンドでSvelte成果物をビルドします。
+  ```shell
+  npm run build
+  ```
+
+Svelte成果物はapp/backend/static に配置されます。この状態で 手順4.を実行するとFastAPIサーバだけでローカル実行可能です。
+
 
 ## GitHub Actions の設定
 
