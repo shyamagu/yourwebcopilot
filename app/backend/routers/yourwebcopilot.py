@@ -87,10 +87,13 @@ Output: ["GPT-4V","schematic diagram"]
         Message(role="system", content=system_prompt),
         Message(role="user", content=content)
     ]
+    logger.info(f"Incoming Message: {content}")
+
 
     # ChatGPTを呼び出す
     answer_query = call_chatgpt([m.dict() for m in messages_for_query])
     logger.debug(answer_query)
+    logger.info(f"Bing Search Query: {answer_query}")
     
     try:
         bingsearchurl = "https://api.bing.microsoft.com/v7.0/search?q="
@@ -109,7 +112,8 @@ Output: ["GPT-4V","schematic diagram"]
         querystring += "%20language:=en"
     option = "&count=10&offset=0"
     #"&count=5&offset=0&mkt=ja-JP"
- 
+    logger.info(f"Bing Search Url: {bingsearchurl+querystring+option}")
+
     try:
         bingResult = call_bingapi(bingsearchurl,querystring,option)
     except Exception as e:
@@ -147,13 +151,19 @@ class AdviceRequest(BaseModel):
     forceExecute: bool
 
 def chatgpt_streamer(response):
-    for chunk in response:
-        if chunk is not None and chunk.choices:
-            content = chunk.choices[0].delta.content
-            if content is not None:
-                yield content
+    output = ""
+    try:
+        for chunk in response:
+            if chunk is not None and chunk.choices:
+                content = chunk.choices[0].delta.content
+                if content is not None:
+                    output += content
+                    yield content
+    finally:
+        logger.info("Output message: " + output)
 
 def chatgpt_streamer_dummy(response):
+    logger.info("Output message: " + response)
     yield response
 
 @router.post("/yourwebcopilot/getadvicews")
@@ -165,12 +175,14 @@ def getadvice(request: AdviceRequest):
     searchEnglish = request.searchEnglish
     forceExecute = request.forceExecute
 
+    logger.info(f"Message: {message}, URL: {url}")
+
     try:
         short_title, content_text = analyze_html(url)
         token_num = calc_token(content_text)
 
     except Exception as e:
-        logger.error(e)
+        logger.error(str(e))
         advice = "ページ情報の解析に失敗しました"
         return StreamingResponse(
             chatgpt_streamer_dummy(advice), media_type="text/event-stream"
