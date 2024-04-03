@@ -1,0 +1,10 @@
+openai
+fastapi
+tiktoken
+python-dotenv
+uvicorn
+gunicorn
+readability-lxml
+lxml[html_clean]
+azure.monitor.opentelemetry
+opentelemetry-instrumentation-fastapi
