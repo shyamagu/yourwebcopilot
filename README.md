@@ -83,6 +83,7 @@
    - `AOAI_API_KEY`
    - `AOAI_ENDPOINT`
    - `AOAI_MODEL`
+   - `APPLICATIONINSIGHTS_CONNECTION_STRING`
 3. 以下のコマンドを実行して、仮想環境を作成し、 Python パッケージをインストールします。
 
     ```shell
