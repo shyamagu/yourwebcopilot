@@ -13,8 +13,6 @@ def call_bingapi (url,query,option):
 
     bingurl = url+query+option
 
-    logger.debug(bingurl)
-
     #bingurlにHeaderつきのGETリクエストを送り結果を取得する
     try:
         result = requests.get(bingurl,headers={'Ocp-Apim-Subscription-Key': BING_API_KEY},timeout=5)
