@@ -140,7 +140,8 @@ GitHub Actions を使用して自動デプロイを設定する場合、以下�
 ```json
 {
   "type": "input_message", 
-  "message": "＜ユーザ入力の文章＞", "token": トークン数※
+  "message": "＜ユーザ入力の文章＞", 
+  "token": "トークン数※"
 }
 ```
 
@@ -169,7 +170,7 @@ GitHub Actions を使用して自動デプロイを設定する場合、以下�
   "message": "＜ユーザ入力の文章＞", 
   "url": "＜検索結果の解析対象URL＞", 
   "title": "URLのショートタイトル", 
-  "token": 解析対象URLのページ情報のトークン数※, 
+  "token": "解析対象URLのページ情報のトークン数※", 
   "force_execute": false
 }
 ```
@@ -180,7 +181,7 @@ GitHub Actions を使用して自動デプロイを設定する場合、以下�
 {
   "type": "output_message", 
   "message": "＜GPTからの回答＞", 
-  "token": 回答のトークン数※
+  "token": "回答のトークン数※"
 }
 ```
 
