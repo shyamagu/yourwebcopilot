@@ -131,6 +131,57 @@ GitHub Actions を使用して自動デプロイを設定する場合、以下�
 
 これにより、コードの変更が release ブランチにマージされるたびに、自動的に本番環境にデプロイされます。
 
-## 注意事項
+## ログ分析
 
-このプロジェクトのセットアップと実行には、 `git fork` や `git clone` から始めることを前提としています。上記の手順に従って、必要なサービスと環境変数の設定を行ってください。
+本サービスではApplication Insight に対して以下のログをtraceへmessageとして送信しています。
+
+- リクエスト
+
+```json
+{
+  "type": "input_message", 
+  "message": "＜ユーザ入力の文章＞", "token": トークン数※
+}
+```
+
+- Bing検索クエリ
+
+```json
+{
+  "type": "bing_query", 
+  "query": "＜検索クエリの配列の文字列＞"
+}
+```
+
+- Bing検索URL
+
+```json
+{
+  "type": "bing_url", 
+  "url": "https://api.bing.microsoft.com/v7.0/search?q=検索クエリ%20site:サイト指定&count=10&offset=0"}
+```
+
+- GPT回答取得リクエスト
+
+```json
+{
+  "type": "pararell_input", 
+  "message": "＜ユーザ入力の文章＞", 
+  "url": "＜検索結果の解析対象URL＞", 
+  "title": "URLのショートタイトル", 
+  "token": 解析対象URLのページ情報のトークン数※, 
+  "force_execute": false
+}
+```
+
+- GPT回答
+
+```json
+{
+  "type": "output_message", 
+  "message": "＜GPTからの回答＞", 
+  "token": 回答のトークン数※
+}
+```
+
+**※トークン数はtiktokenで算出しているため厳密なトークン数ではありません。**
