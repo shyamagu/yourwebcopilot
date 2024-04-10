@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List
 import tiktoken
+import urllib.parse
 
 def encode_token(text):
     encoding_4 = tiktoken.encoding_for_model("gpt-4")
@@ -50,6 +51,7 @@ def mslcopilot_part1(message: ReceiveData):
         system_prompt ="""You are a top-tier information concierge. Based on user input, return the necessary Bing search queries in the following format in English.
 If the user explicitly specifies search keywords, use those as the search query. 
 **No need for additional explanations or descriptions. Only answer with the array string format.**
+**Responses should be written in English.**
 
 Output format:
 ["query1","query2","query3"]
@@ -115,10 +117,14 @@ Output: ["GPT-4V","schematic diagram"]
         }
         return JSONResponse(content=data)
 
+    querystring = urllib.parse.quote_plus(querystring)
+
     if siteoption:
         querystring += siteoption
+    
     if searchEnglish:
         querystring += "%20language:=en"
+
     option = "&count=10&offset=0"
     #"&count=5&offset=0&mkt=ja-JP"
 
